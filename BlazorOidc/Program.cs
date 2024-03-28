@@ -36,43 +36,6 @@ builder.Services.AddAuthentication(options =>
     //    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
     //};
     // *********** DANGER: CANNOT USE IN PROD *****************
-
-    options.Events.OnTokenValidated = context =>
-    {
-        if (context.Principal != null)
-        {
-            var userName = $"{context.Principal.FindFirst(c => c.Type == _commonName)?.Value}";
-            logger.LogInformation($"User Name: {userName}");
-        }
-        else
-        {
-            logger.LogError("Principal is NULL");
-        }
-
-        return Task.CompletedTask;
-    };
-    options.Events.OnAuthenticationFailed = context =>
-    {
-        logger.LogError($"OnAuthenticationFailed: {context.Exception.Message}");
-
-        if (context.Exception.InnerException != null)
-        {
-            logger.LogError($"OnAuthenticationFailed(Inner Exception): {context.Exception.InnerException.Message}");
-        }
-
-        return Task.CompletedTask;
-    };
-    options.Events.OnRemoteFailure = context =>
-    {
-        logger.LogError($"OnRemoteFailure: {context?.Failure?.Message}");
-
-        if (context != null && context.Failure != null && context.Failure.InnerException != null)
-        {
-            logger.LogError($"OnRemoteFailure(Inner Exception): {context.Failure.InnerException.Message}");
-        }
-
-        return Task.CompletedTask;
-    };
 });
 
 builder.Services.AddAuthorization();
