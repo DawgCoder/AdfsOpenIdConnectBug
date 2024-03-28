@@ -1,0 +1,15 @@
+﻿@page "/"
+@inject LoginService LoginService
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<button class="btn btn-primary" @onclick="Login">Login</button>
+
+@code {
+    private void Login()
+    {
+        LoginService.Login();
+    }
+}
